@@ -58,6 +58,13 @@ void blinkYellowLight(int yellowLED)
   }
 }
 
+void greenToYellow(int green, int yellow)
+{
+  digitalWrite(green, LOW); //change east-facing lights from green to yellow to red
+  digitalWrite(yellow, HIGH);
+  delay(changeDelay);
+}
+
 void loop()
 {
   if ( digitalRead(westButton) == HIGH ) // request west>east traffic flow
@@ -67,69 +74,69 @@ void loop()
     {
       trafficWest = true; // change traffic flow flag to west>east
       delay(flowTime);  // give time for traffic to flow
-      digitalWrite(eastGreen, LOW); //change east-facing lights from green
-      // to yellow to red
-
+     /* digitalWrite(eastGreen, LOW); //change east-facing lights from green to yellow to red
       digitalWrite(eastYellow, HIGH);
-      delay(changeDelay);
+      delay(changeDelay);*/
+      greenToYellow(eastGreen, eastYellow);
       digitalWrite(eastYellow, LOW);
       digitalWrite(eastRed, HIGH);
       delay(changeDelay);
 
       blinkYellowLight(westYellow);
-     /*for ( int i = 0; i < 5; i++ ) //blink yellow light
-      {
+      /*for ( int i = 0; i < 5; i++ ) //blink yellow light
+        {
 
-       digitalWrite(westYellow, LOW);
-      delay(yellowBlinkTime);
-      digitalWrite(westYellow, HIGH);
-      delay(yellowBlinkTime);
-    }*/
-    digitalWrite(westYellow, LOW);
-    digitalWrite(westRed, LOW); // change west-facing lights from red to green
-    digitalWrite(westGreen, HIGH);
+        digitalWrite(westYellow, LOW);
+        delay(yellowBlinkTime);
+        digitalWrite(westYellow, HIGH);
+        delay(yellowBlinkTime);
+        }*/
+      digitalWrite(westYellow, LOW);
+      digitalWrite(westRed, LOW); // change west-facing lights from red to green
+      digitalWrite(westGreen, HIGH);
 
 
-    digitalWrite(westpedlightGreen, HIGH); //west ped go
-    digitalWrite(westpedlightBlue, LOW);
+      digitalWrite(westpedlightGreen, HIGH); //west ped go
+      digitalWrite(westpedlightBlue, LOW);
 
-    digitalWrite(eastpedlightBlue, HIGH); //east ped stopped
-    digitalWrite(eastpedlightGreen, LOW);
+      digitalWrite(eastpedlightBlue, HIGH); //east ped stopped
+      digitalWrite(eastpedlightGreen, LOW);
+    }
   }
-}
 
-if ( digitalRead(eastButton) == HIGH ) // request east>west traffic flow
-{
-  if ( trafficWest == true )
+  if ( digitalRead(eastButton) == HIGH ) // request east>west traffic flow
   {
-    trafficWest = false; // change traffic flow flag to east>west
-    delay(flowTime);  // give time for traffic to flow
-    digitalWrite(westGreen, LOW);
-    // change west lights from green to yellow to red
-    digitalWrite(westYellow, HIGH);
-    delay(changeDelay);
-    digitalWrite(westYellow, LOW);
-    digitalWrite(westRed, HIGH);
-    delay(changeDelay);
-
-    blinkYellowLight(eastYellow);
-    /*for ( int i = 0 ; i < 5 ; i++ ) // blink yellow light
+    if ( trafficWest == true )
     {
+      trafficWest = false; // change traffic flow flag to east>west
+      delay(flowTime);  // give time for traffic to flow
+      /*digitalWrite(westGreen, LOW);
+      // change west lights from green to yellow to red
+      digitalWrite(westYellow, HIGH);
+      delay(changeDelay);*/
+      greenToYellow(westGreen, westYellow);
+      digitalWrite(westYellow, LOW);
+      digitalWrite(westRed, HIGH);
+      delay(changeDelay);
 
-    digitalWrite(eastYellow, LOW);
-    delay(yellowBlinkTime);
-    digitalWrite(eastYellow, HIGH);
-    delay(yellowBlinkTime);
-    }*/
-    digitalWrite(eastYellow, LOW);
-    digitalWrite(eastRed, LOW); // change east-facing lights from red to green
-    digitalWrite(eastGreen, HIGH);
+      blinkYellowLight(eastYellow);
+      /*for ( int i = 0 ; i < 5 ; i++ ) // blink yellow light
+        {
 
-    digitalWrite(westpedlightGreen, LOW); //west ped go
-    digitalWrite(westpedlightBlue, HIGH);
+        digitalWrite(eastYellow, LOW);
+        delay(yellowBlinkTime);
+        digitalWrite(eastYellow, HIGH);
+        delay(yellowBlinkTime);
+        }*/
+      digitalWrite(eastYellow, LOW);
+      digitalWrite(eastRed, LOW); // change east-facing lights from red to green
+      digitalWrite(eastGreen, HIGH);
 
-    digitalWrite(eastpedlightBlue, LOW); //east ped stopped
-    digitalWrite(eastpedlightGreen, HIGH);
+      digitalWrite(westpedlightGreen, LOW); //west ped go
+      digitalWrite(westpedlightBlue, HIGH);
+
+      digitalWrite(eastpedlightBlue, LOW); //east ped stopped
+      digitalWrite(eastpedlightGreen, HIGH);
+    }
   }
-}
 }
